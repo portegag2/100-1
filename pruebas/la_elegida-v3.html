@@ -145,9 +145,7 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
-            width: min(calc(100vw - 32px), 480px);
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+            width: auto;
         }
 
         .nav-dock-inner {
@@ -155,14 +153,6 @@
             display: flex;
             gap: 10px;
             align-items: center;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding: 4px 20px;
-        }
-
-        .nav-dock-inner::-webkit-scrollbar {
-            display: none;
         }
 
         .nav-link {
@@ -208,37 +198,6 @@
             z-index: -1;
             opacity: 0.4;
         }
-        /* NIVEL DE CONFIANZA: Alta. 
-ESTRATEGIA: Uso de ::before para inyectar el grid como capa de fondo.
-VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML existente.
-*/
-
-#tranquilidad {
-    position: relative;
-    overflow: hidden;
-}
-
-#tranquilidad::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.8; /* Ajusta la intensidad del grid aquí */
-    
-    /* Inyección del Grid y el Círculo Técnico */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='g' width='40' height='40' patternUnits='userSpaceOnUse'%3E%3Cpath d='M40 0L0 0 0 40' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g)'/%3E%3Cg transform='translate(200,200)'%3E%3Ccircle r='120' stroke='rgba(255,255,255,0.1)' stroke-width='1' fill='none'/%3E%3Cpath d='M-20 0H20M0 -20V20' stroke='rgba(59,130,246,0.5)' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-/* Asegura que el contenido original esté por encima del grid */
-#tranquilidad > div, 
-#tranquilidad > p {
-    position: relative;
-    z-index: 1;
-}
     </style>
 </head>
 <body>
@@ -374,6 +333,15 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
                     <h3 class="text-4xl font-bold mb-6 tracking-tighter">Crecimiento digital</h3>
                     <p class="text-xl text-slate-400 font-light">Diseñamos <span class="text-white">webs y aplicaciones</span> pensadas para comunicar bien tu propuesta y facilitar tanto la captación como la gestión de tu negocio.</p>
                 </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <!-- Ilustración de Nodos dinámica -->
+                    <svg width="300" height="150" viewBox="0 0 300 150">
+                        <path d="M50 75 Q 150 10, 250 75" stroke="var(--cobalt)" fill="none" stroke-width="2" />
+                        <circle cx="50" cy="75" r="8" fill="var(--cyan)" />
+                        <circle cx="150" cy="35" r="8" fill="white" />
+                        <circle cx="250" cy="75" r="8" fill="var(--cobalt)" />
+                    </svg>
+                </div>
             </div>
 
         </section>
@@ -448,11 +416,7 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
 
         function setActive(id) {
             navLinks.forEach(link => {
-                const isActive = link.getAttribute('href') === '#' + id;
-                link.classList.toggle('active', isActive);
-                if (isActive) {
-                    link.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
-                }
+                link.classList.toggle('active', link.getAttribute('href') === '#' + id);
             });
         }
 
