@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu opinión | 1•0•0~>1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cobalt: #0047ff;
+            --cyan: #00f0ff;
+            --deep: #0a0a0c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--deep);
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        canvas#bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            filter: blur(70px);
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 2;
+            width: min(480px, calc(100vw - 32px));
+            padding: 24px 16px 48px;
+        }
+
+        .top-logo {
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0.5;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 32px;
+            padding: 40px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -60px; left: -60px;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(0,71,255,0.18), transparent 70%);
+            pointer-events: none;
+        }
+
+        .intro-text {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.5;
+            margin-bottom: 36px;
+        }
+
+        .q-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.07);
+            margin: 40px 0;
+        }
+
+        .q-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .q-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 28px;
+        }
+
+        .dot-selector {
+            width: 100%;
+            height: 96px;
+            margin-bottom: 8px;
+        }
+
+        .dot-selector svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .dot-caption {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.45);
+            text-align: center;
+            min-height: 1.5em;
+            margin-bottom: 4px;
+            transition: all 0.3s;
+        }
+
+        .dot-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 0.06em;
+            margin-bottom: 4px;
+        }
+
+        .textarea-wrap { margin-bottom: 24px; }
+
+        textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            padding: 16px;
+            resize: none;
+            height: 100px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        textarea::placeholder { color: rgba(255,255,255,0.25); }
+        textarea:focus { border-color: rgba(0,240,255,0.4); }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 99px;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--cobalt), var(--cyan));
+            color: #fff;
+            transition: opacity 0.3s, transform 0.2s;
+            margin-top: 12px;
+        }
+
+        .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        #thanks {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .thanks-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cobalt), var(--cyan));
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 1.8rem;
+        }
+
+        .thanks-title { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
+
+        .thanks-sub {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+
+        .step { transition: opacity 0.4s, transform 0.4s; }
+    </style>
+</head>
+<body>
+
+    <div class="noise"></div>
+    <canvas id="bg"></canvas>
+
+    <div class="wrapper">
+        <div class="top-logo">1•0•0~>1 · Architecture of Order</div>
+
+        <div class="card">
+
+            <div class="step" id="step1">
+
+                <p class="intro-text">Después de ver la web, nos interesa saber tu sensación.</p>
+
+                <p class="q-label">¿Sabe de lo que habla?</p>
+                <p class="q-text">Al leerla, ¿te transmite que entiende bien lo que tiene entre manos?</p>
+
+                <div class="dot-selector" id="dots1-wrap"></div>
+                <div class="dot-caption" id="caption1">—</div>
+                <div class="dot-labels"><span>Poca confianza</span><span>Total confianza</span></div>
+
+                <div class="q-divider"></div>
+
+                <p class="q-label">¿Sería fácil hablar con ella?</p>
+                <p class="q-text">¿La comunicación te parece cercana y comprensible?</p>
+
+                <div class="dot-selector" id="dots2-wrap"></div>
+                <div class="dot-caption" id="caption2">—</div>
+                <div class="dot-labels"><span>Muy difícil</span><span>Muy fácil</span></div>
+
+                <button class="btn" id="btn1" style="margin-top: 32px;">Continuar →</button>
+            </div>
+
+            <div class="step" id="step2" style="display:none;">
+
+                <p class="intro-text">Casi listo. Dos últimas preguntas.</p>
+
+                <p class="q-label">¿Qué es lo que más te ha gustado?</p>
+                <div class="textarea-wrap">
+                    <textarea id="liked" placeholder="El diseño, el texto, los colores..."></textarea>
+                </div>
+
+                <p class="q-label">¿Qué mejorarías?</p>
+                <div class="textarea-wrap">
+                    <textarea id="improve" placeholder="Sé tan directo/a como quieras..."></textarea>
+                </div>
+
+                <button class="btn" id="btn2">Enviar opinión ✓</button>
+            </div>
+
+            <div id="thanks">
+                <div class="thanks-icon">✓</div>
+                <p class="thanks-title">¡Gracias de verdad!</p>
+                <p class="thanks-sub">Tu opinión ayuda a construir algo mejor.<br>Puedes cerrar esta ventana.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ── Background ──
+        const canvas = document.getElementById('bg');
+        const ctx = canvas.getContext('2d');
+        let balls = [];
+
+        function initBg() {
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+            balls = Array.from({length: 4}, (_, i) => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5,
+                size: Math.random() * 250 + 180,
+                color: i % 2 === 0 ? '#0047ff' : '#00f0ff'
+            }));
+        }
+
+        function animBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            balls.forEach(b => {
+                b.x += b.vx; b.y += b.vy;
+                if (b.x < -b.size || b.x > canvas.width + b.size) b.vx *= -1;
+                if (b.y < -b.size || b.y > canvas.height + b.size) b.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
+                ctx.fillStyle = b.color;
+                ctx.fill();
+            });
+            requestAnimationFrame(animBg);
+        }
+
+        window.addEventListener('resize', initBg);
+        initBg(); animBg();
+
+        // ── Captions ──
+        const captions1 = ['', 'Poca',    'Algo',         'Bastante', 'Mucha',  'Total ✦'];
+        const captions2 = ['', 'Difícil', 'Algo difícil', 'Asequible','Fácil',  'Perfecta ✦'];
+
+        // ── Builder ──
+        // Curva cúbica convexa: arranca casi plana (1 y 2 casi al mismo nivel)
+        // y sube progresivamente hasta el 5.
+        // P0=(20,80) CP1=(160,78) CP2=(260,55) P3=(300,14)
+        // Esto hace que los primeros nodos estén casi al mismo nivel
+        // y los últimos suban más notablemente.
+        function buildDotSelector(wrapperId, captionId, captionArr, onSelect) {
+            const wrap  = document.getElementById(wrapperId);
+            const capEl = document.getElementById(captionId);
+
+            const VW = 320, VH = 96;
+
+            // Extremos y control points de la curva convexa
+            const P0  = { x: 20,  y: 80 };
+            const CP1 = { x: 160, y: 78 };
+            const CP2 = { x: 264, y: 55 };
+            const P3  = { x: 300, y: 14 };
+
+            // Cúbica bezier
+            function bezier(t) {
+                const mt = 1 - t;
+                return {
+                    x: mt*mt*mt*P0.x + 3*mt*mt*t*CP1.x + 3*mt*t*t*CP2.x + t*t*t*P3.x,
+                    y: mt*mt*mt*P0.y + 3*mt*mt*t*CP1.y + 3*mt*t*t*CP2.y + t*t*t*P3.y
+                };
+            }
+
+            // 5 nodos en t = 0, 0.25, 0.5, 0.75, 1
+            const nodes = [0, 0.25, 0.5, 0.75, 1].map((t, i) => ({
+                t, ...bezier(t), val: i + 1
+            }));
+
+            const pathD = `M ${P0.x} ${P0.y} C ${CP1.x} ${CP1.y} ${CP2.x} ${CP2.y} ${P3.x} ${P3.y}`;
+
+            let selected = null;
+
+            const svgNS = 'http://www.w3.org/2000/svg';
+            const svg = document.createElementNS(svgNS, 'svg');
+            svg.setAttribute('viewBox', `0 0 ${VW} ${VH}`);
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+            // Defs
+            const defs = document.createElementNS(svgNS, 'defs');
+
+            const uid = wrapperId + '_g';
+            const grad = document.createElementNS(svgNS, 'linearGradient');
+            grad.setAttribute('id', uid);
+            grad.setAttribute('x1','0%'); grad.setAttribute('y1','0%');
+            grad.setAttribute('x2','100%'); grad.setAttribute('y2','0%');
+            [{off:'0%',col:'#0047ff'},{off:'100%',col:'#00f0ff'}].forEach(s => {
+                const st = document.createElementNS(svgNS, 'stop');
+                st.setAttribute('offset', s.off);
+                st.setAttribute('stop-color', s.col);
+                grad.appendChild(st);
+            });
+            defs.appendChild(grad);
+
+            const clipId = wrapperId + '_clip';
+            const clipPath = document.createElementNS(svgNS, 'clipPath');
+            clipPath.setAttribute('id', clipId);
+            const clipRect = document.createElementNS(svgNS, 'rect');
+            clipRect.setAttribute('x', '-20');
+            clipRect.setAttribute('y', '-20');
+            clipRect.setAttribute('width', '0');
+            clipRect.setAttribute('height', VH + 40);
+            clipPath.appendChild(clipRect);
+            defs.appendChild(clipPath);
+
+            svg.appendChild(defs);
+
+            // Curva fondo
+            const curveBg = document.createElementNS(svgNS, 'path');
+            curveBg.setAttribute('d', pathD);
+            curveBg.setAttribute('fill', 'none');
+            curveBg.setAttribute('stroke', 'rgba(255,255,255,0.08)');
+            curveBg.setAttribute('stroke-width', '1.5');
+            curveBg.setAttribute('stroke-linecap', 'round');
+            svg.appendChild(curveBg);
+
+            // Curva activa
+            const curveActive = document.createElementNS(svgNS, 'path');
+            curveActive.setAttribute('d', pathD);
+            curveActive.setAttribute('fill', 'none');
+            curveActive.setAttribute('stroke', `url(#${uid})`);
+            curveActive.setAttribute('stroke-width', '2.5');
+            curveActive.setAttribute('stroke-linecap', 'round');
+            curveActive.setAttribute('clip-path', `url(#${clipId})`);
+            svg.appendChild(curveActive);
+
+            // Nodos
+            const nodeEls = nodes.map(({ x, y, val }, i) => {
+                const g = document.createElementNS(svgNS, 'g');
+                g.style.cursor = 'pointer';
+
+                const hit = document.createElementNS(svgNS, 'circle');
+                hit.setAttribute('cx', x); hit.setAttribute('cy', y);
+                hit.setAttribute('r', '20');
+                hit.setAttribute('fill', 'transparent');
+                g.appendChild(hit);
+
+                const circ = document.createElementNS(svgNS, 'circle');
+                circ.setAttribute('cx', x); circ.setAttribute('cy', y);
+                circ.setAttribute('r', '11');
+                circ.setAttribute('fill', 'rgba(255,255,255,0.06)');
+                circ.setAttribute('stroke', 'rgba(255,255,255,0.14)');
+                circ.setAttribute('stroke-width', '1.5');
+                circ.style.transition = 'r 0.3s cubic-bezier(0.2,1,0.3,1), fill 0.3s, filter 0.3s';
+                g.appendChild(circ);
+
+                const txt = document.createElementNS(svgNS, 'text');
+                txt.setAttribute('x', x); txt.setAttribute('y', y);
+                txt.setAttribute('text-anchor', 'middle');
+                txt.setAttribute('dominant-baseline', 'central');
+                txt.setAttribute('font-family', 'Space Grotesk, sans-serif');
+                txt.setAttribute('font-size', '11');
+                txt.setAttribute('font-weight', '700');
+                txt.setAttribute('fill', 'rgba(255,255,255,0.35)');
+                txt.style.pointerEvents = 'none';
+                txt.style.userSelect = 'none';
+                txt.textContent = val;
+                g.appendChild(txt);
+
+                g.addEventListener('click', () => {
+                    selected = val;
+                    update(i);
+                    capEl.textContent = captionArr[val];
+                    onSelect(val);
+                });
+
+                svg.appendChild(g);
+                return { circ, txt };
+            });
+
+            function update(selIdx) {
+                clipRect.setAttribute('width', String(nodes[selIdx].x + 16 + 20));
+
+                nodeEls.forEach(({ circ, txt }, i) => {
+                    if (i === selIdx) {
+                        circ.setAttribute('r', '16');
+                        circ.setAttribute('fill', '#ffffff');
+                        circ.setAttribute('stroke', 'rgba(0,240,255,0.75)');
+                        circ.setAttribute('stroke-width', '2.5');
+                        circ.style.filter = 'drop-shadow(0 0 10px rgba(0,240,255,0.85))';
+                        txt.setAttribute('fill', '#0a0a0c');
+                        txt.setAttribute('font-size', '12');
+                    } else if (i < selIdx) {
+                        circ.setAttribute('r', '9');
+                        circ.setAttribute('fill', 'rgba(0,240,255,0.18)');
+                        circ.setAttribute('stroke', 'rgba(0,240,255,0.45)');
+                        circ.setAttribute('stroke-width', '1.5');
+                        circ.style.filter = 'none';
+                        txt.setAttribute('fill', 'rgba(255,255,255,0.5)');
+                        txt.setAttribute('font-size', '11');
+                    } else {
+                        circ.setAttribute('r', '9');
+                        circ.setAttribute('fill', 'rgba(255,255,255,0.05)');
+                        circ.setAttribute('stroke', 'rgba(255,255,255,0.12)');
+                        circ.setAttribute('stroke-width', '1.5');
+                        circ.style.filter = 'none';
+                        txt.setAttribute('fill', 'rgba(255,255,255,0.28)');
+                        txt.setAttribute('font-size', '11');
+                    }
+                });
+            }
+
+            wrap.appendChild(svg);
+            return { getValue: () => selected };
+        }
+
+        let score1 = null, score2 = null;
+
+        buildDotSelector('dots1-wrap', 'caption1', captions1, v => { score1 = v; });
+        buildDotSelector('dots2-wrap', 'caption2', captions2, v => { score2 = v; });
+
+        // ── Paso 1 → 2 ──
+        document.getElementById('btn1').addEventListener('click', async () => {
+            if (score1 === null || score2 === null) {
+                const btn = document.getElementById('btn1');
+                const seq = [-7, 7, -5, 5, 0];
+                seq.forEach((v, i) => setTimeout(() => {
+                    btn.style.transition = 'transform 0.08s';
+                    btn.style.transform = `translateX(${v}px)`;
+                }, i * 80));
+                return;
+            }
+
+            try {
+                await fetch('https://formspree.io/f/mykdobae', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: '[Opinión parcial] Solo puntuaciones',
+                        nota: 'Parcial — sin preguntas abiertas',
+                        pregunta_1_confianza:    score1,
+                        pregunta_2_comunicacion: score2
+                    })
+                });
+            } catch(e) {}
+
+            const s1 = document.getElementById('step1');
+            const s2 = document.getElementById('step2');
+            s1.style.transition = 'opacity 0.35s, transform 0.35s';
+            s1.style.opacity = '0';
+            s1.style.transform = 'translateX(-24px)';
+
+            setTimeout(() => {
+                s1.style.display = 'none';
+                s2.style.display = 'block';
+                s2.style.opacity = '0';
+                s2.style.transform = 'translateX(24px)';
+                s2.style.transition = 'opacity 0.35s, transform 0.35s';
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    s2.style.opacity = '1';
+                    s2.style.transform = 'translateX(0)';
+                }));
+            }, 350);
+        });
+
+        // ── Envío final ──
+        document.getElementById('btn2').addEventListener('click', async () => {
+            const liked   = document.getElementById('liked').value.trim();
+            const improve = document.getElementById('improve').value.trim();
+            const btn     = document.getElementById('btn2');
+            btn.textContent = 'Enviando...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('https://formspree.io/f/mykdobae', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: '[Opinión completa] 1·0·0~>1',
+                        pregunta_1_confianza:    score1,
+                        pregunta_2_comunicacion: score2,
+                        que_gusta_mas:  liked   || '(sin respuesta)',
+                        que_mejoraria:  improve || '(sin respuesta)'
+                    })
+                });
+
+                if (res.ok) {
+                    const s2 = document.getElementById('step2');
+                    s2.style.transition = 'opacity 0.3s';
+                    s2.style.opacity = '0';
+                    setTimeout(() => {
+                        s2.style.display = 'none';
+                        const thanks = document.getElementById('thanks');
+                        thanks.style.display = 'block';
+                        thanks.style.opacity = '0';
+                        thanks.style.transition = 'opacity 0.5s';
+                        requestAnimationFrame(() => requestAnimationFrame(() => {
+                            thanks.style.opacity = '1';
+                        }));
+                    }, 300);
+                } else {
+                    btn.textContent = 'Error — intenta de nuevo';
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                btn.textContent = 'Error de red — intenta de nuevo';
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>
