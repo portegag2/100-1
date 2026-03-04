@@ -649,7 +649,7 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 999; /* Por debajo del nav-dock (1000), por encima del resto */
+    z-index: 999;
     transform: translateY(100%);
     transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
@@ -665,32 +665,41 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
     border-top: 1px solid rgba(0, 240, 255, 0.12);
-    padding: 1.4rem 1.5rem 6.5rem;
+    padding: 1.2rem 1.5rem 6.5rem;
     position: relative;
   }
 
+  /* X — esquina superior derecha */
   .cookie-close-x {
     position: absolute;
     top: 0.8rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.35);
-    font-size: 1rem;
+    right: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.65rem;
     cursor: pointer;
     line-height: 1;
-    padding: 4px;
-    transition: color 0.2s;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
   }
-  .cookie-close-x:hover { color: rgba(255,255,255,0.9); }
+  .cookie-close-x:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+  }
 
   .cookie-text {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 0.72rem;
     line-height: 1.6;
     color: rgba(255,255,255,0.65);
-    max-width: 600px;
-    margin: 0 auto;
+    margin-bottom: 0.8rem;
   }
 
   .cookie-text a {
@@ -699,19 +708,20 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     text-underline-offset: 3px;
   }
 
+  /* OK — esquina inferior izquierda */
   .cookie-accept {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 0.9rem;
-    width: 44px;
-    height: 44px;
+    vertical-align: middle;
+    width: 48px;
+    height: 48px;
     background: rgba(0, 71, 255, 0.15);
     border: 1px solid rgba(0, 240, 255, 0.3);
     border-radius: 50%;
     color: #fff;
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.62rem;
+    font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     cursor: pointer;
@@ -728,9 +738,8 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
   <div class="cookie-inner">
     <button class="cookie-close-x" id="cookie-close-x-btn" title="Cerrar">✕</button>
     <div class="cookie-text">
-      <strong style="color:#fff; letter-spacing:0.1em; font-size:0.7rem; text-transform:uppercase;">Cookies</strong><br>
+      <strong style="color:#fff; letter-spacing:0.08em; font-size:0.7rem; text-transform:uppercase;">Cookies:</strong>
       Esta web usa únicamente cookies técnicas estrictamente necesarias para su funcionamiento (gestión del formulario de contacto). No se usan cookies de análisis ni publicidad. Al seguir navegando, aceptas su uso según el <a href="#politica-cookies">art. 22.2 de la LSSI</a> y el <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679" target="_blank" rel="noopener">RGPD</a>.
-      <br>
       <button class="cookie-accept" id="cookie-accept-btn">OK</button>
     </div>
   </div>
