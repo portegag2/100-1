@@ -402,7 +402,7 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
         <div class="flex flex-col gap-6 mt-8 w-full">
             <!-- Links uno encima del otro -->
             <div class="flex flex-col gap-4 w-full md:w-auto">
-                <a href="/cdn-cgi/l/email-protection#7d090818101c14113d19121014131412531e1210420e081f17181e09403e151c0f111810120e5d0e121f0f185d10145d13181a121e1412" class="nav-link bg-blue-600/20 border-blue-500/30 hover:bg-blue-600/30">
+                <a href="mailto:tuemail@dominio.com?subject=Charlemos sobre mi negocio" class="nav-link bg-blue-600/20 border-blue-500/30 hover:bg-blue-600/30">
                     Envía un email
                 </a>
                 <a href="https://wa.me/+34123456789?text=Hola, me interesa charlar sobre automatizaciones/web para mi negocio." class="nav-link bg-green-600/20 border-green-500/30 hover:bg-green-600/30">
@@ -434,7 +434,7 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
         </nav>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Fluid Background Logic (Simulando Wild Colors & Textured Pixels)
         const canvas = document.getElementById('fluid-bg');
         const ctx = canvas.getContext('2d');
@@ -641,125 +641,5 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     });
   })();
 </script>
-
-<!-- ── BANNER COOKIES ── -->
-<style>
-  #cookie-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 999; /* Por debajo del nav-dock (1000), por encima del resto */
-    transform: translateY(100%);
-    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-  }
-
-  #cookie-banner.visible {
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .cookie-inner {
-    background: rgba(10, 10, 12, 0.42);
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
-    border-top: 1px solid rgba(0, 240, 255, 0.12);
-    padding: 1.4rem 1.5rem 6.5rem;
-    position: relative;
-  }
-
-  .cookie-close-x {
-    position: absolute;
-    top: 0.8rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.35);
-    font-size: 1rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 4px;
-    transition: color 0.2s;
-  }
-  .cookie-close-x:hover { color: rgba(255,255,255,0.9); }
-
-  .cookie-text {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.72rem;
-    line-height: 1.6;
-    color: rgba(255,255,255,0.65);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .cookie-text a {
-    color: var(--cyan);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .cookie-accept {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0.9rem;
-    width: 44px;
-    height: 44px;
-    background: rgba(0, 71, 255, 0.15);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 50%;
-    color: #fff;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: background 0.3s, border-color 0.3s;
-  }
-
-  .cookie-accept:hover {
-    background: rgba(0, 71, 255, 0.3);
-    border-color: rgba(0, 240, 255, 0.6);
-  }
-</style>
-
-<div id="cookie-banner">
-  <div class="cookie-inner">
-    <button class="cookie-close-x" id="cookie-close-x-btn" title="Cerrar">✕</button>
-    <div class="cookie-text">
-      <strong style="color:#fff; letter-spacing:0.1em; font-size:0.7rem; text-transform:uppercase;">Cookies</strong><br>
-      Esta web usa únicamente cookies técnicas estrictamente necesarias para su funcionamiento (gestión del formulario de contacto). No se usan cookies de análisis ni publicidad. Al seguir navegando, aceptas su uso según el <a href="#politica-cookies">art. 22.2 de la LSSI</a> y el <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679" target="_blank" rel="noopener">RGPD</a>.
-      <br>
-      <button class="cookie-accept" id="cookie-accept-btn">OK</button>
-    </div>
-  </div>
-</div>
-
-<!-- Política de cookies (ancla) — bloque invisible, referencia legal -->
-<div id="politica-cookies" style="display:none" aria-hidden="true"></div>
-
-<script>
-  (function() {
-    const banner = document.getElementById('cookie-banner');
-    const acceptBtn = document.getElementById('cookie-accept-btn');
-    const closeXBtn = document.getElementById('cookie-close-x-btn');
-
-    function closeBanner() {
-      localStorage.setItem('cookies_accepted', '1');
-      banner.classList.remove('visible');
-    }
-
-    if (!localStorage.getItem('cookies_accepted')) {
-      setTimeout(() => {
-        banner.classList.add('visible');
-      }, 800);
-    }
-
-    acceptBtn.addEventListener('click', closeBanner);
-    closeXBtn.addEventListener('click', closeBanner);
-  })();
-</script>
-
 </body>
 </html>
