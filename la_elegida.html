@@ -654,12 +654,10 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
   }
-
   #cookie-banner.visible {
     transform: translateY(0);
     pointer-events: auto;
   }
-
   .cookie-inner {
     background: rgba(10, 10, 12, 0.42);
     backdrop-filter: blur(28px);
@@ -667,9 +665,10 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     border-top: 1px solid rgba(0, 240, 255, 0.12);
     padding: 1.2rem 1.5rem 6.5rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
-
-  /* X — esquina superior derecha */
   .cookie-close-x {
     position: absolute;
     top: 0.8rem;
@@ -685,7 +684,6 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     color: rgba(255,255,255,0.5);
     font-size: 0.65rem;
     cursor: pointer;
-    line-height: 1;
     transition: background 0.2s, border-color 0.2s, color 0.2s;
   }
   .cookie-close-x:hover {
@@ -693,27 +691,11 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     border-color: rgba(255,255,255,0.5);
     color: #fff;
   }
-
-  .cookie-text {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.72rem;
-    line-height: 1.6;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 0.8rem;
-  }
-
-  .cookie-text a {
-    color: var(--cyan);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  /* OK — esquina inferior izquierda */
   .cookie-accept {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    vertical-align: middle;
+    margin-top: 0.8rem;
     width: 48px;
     height: 48px;
     background: rgba(0, 71, 255, 0.15);
@@ -727,10 +709,21 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     cursor: pointer;
     transition: background 0.3s, border-color 0.3s;
   }
-
   .cookie-accept:hover {
     background: rgba(0, 71, 255, 0.3);
     border-color: rgba(0, 240, 255, 0.6);
+  }
+  .cookie-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.65);
+    overflow: hidden;
+  }
+  .cookie-text a {
+    color: var(--cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 </style>
 
@@ -740,8 +733,8 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
     <div class="cookie-text">
       <strong style="color:#fff; letter-spacing:0.08em; font-size:0.7rem; text-transform:uppercase;">Cookies:</strong>
       Esta web usa únicamente cookies técnicas estrictamente necesarias para su funcionamiento (gestión del formulario de contacto). No se usan cookies de análisis ni publicidad. Al seguir navegando, aceptas su uso según el <a href="#politica-cookies">art. 22.2 de la LSSI</a> y el <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679" target="_blank" rel="noopener">RGPD</a>.
-      <button class="cookie-accept" id="cookie-accept-btn">OK</button>
     </div>
+    <button class="cookie-accept" id="cookie-accept-btn">OK</button>
   </div>
 </div>
 
