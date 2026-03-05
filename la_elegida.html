@@ -462,7 +462,7 @@
                     </div>
                     <!-- Formulario ocupando el resto -->
                     <form action="https://formspree.io/f/mbdzryvo" method="POST" class="flex flex-col gap-4 w-full" style="position: relative;">
-                        <input type="email" name="email" placeholder="Tu email" class="p-4 rounded-full bg-transparent border border-white/20 text-white placeholder-slate-400">
+                        <input type="email" name="email" id="email" required placeholder="Tu email" class="p-4 rounded-full bg-transparent border border-white/20 text-white placeholder-slate-400">
                         <textarea name="message" placeholder="Cuéntame un poco..." class="p-4 rounded-3xl bg-transparent border border-white/20 text-white placeholder-slate-400 h-24"></textarea>
                         <button type="submit" class="nav-link bg-cyan-600/20 border-cyan-500/30 hover:bg-cyan-600/30">
                             Enviar mensaje
@@ -832,13 +832,30 @@ const closeBtn = document.getElementById('success-close-btn');
 form.onsubmit = async (e) => {
   e.preventDefault();
   const data = new FormData(form);
-  await fetch(form.action, {
-    method: 'POST',
-    body: data,
-    headers: { 'Accept': 'application/json' }
-  });
-  form.reset();
-  overlay.classList.add('visible');
+  const userEmail = data.get('email'); // Captura el email introducido
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      // Personaliza el mensaje de éxito antes de mostrar el overlay
+      const successText = overlay.querySelector('p');
+      if (successText) {
+        successText.innerHTML = `Gracias por escribir. Te responderemos en breve a <strong>${userEmail}</strong>.`;
+      }
+
+      form.reset();
+      overlay.classList.add('visible');
+    } else {
+      alert("Hubo un error al enviar. Por favor, inténtalo de nuevo.");
+    }
+  } catch (error) {
+    alert("Error de conexión. Revisa tu internet.");
+  }
 };
 
 closeBtn.addEventListener('click', () => {
