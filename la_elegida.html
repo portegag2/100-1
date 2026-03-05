@@ -88,6 +88,7 @@
             background: radial-gradient(circle, rgba(0, 71, 255, 0.1) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.6s;
+            pointer-events: none;
         }
 
         .liquid-card:hover::before {
@@ -410,7 +411,7 @@ VENTAJA: No desplaza el texto, no cambia fuentes, no requiere modificar el HTML 
                 </a>
             </div>
             <!-- Formulario ocupando el resto -->
-            <form action="https://formspree.io/f/tu-id-de-formspree" method="POST" class="flex flex-col gap-4 w-full">
+            <form action="https://formspree.io/f/mbdzryvo" method="POST" class="flex flex-col gap-4 w-full">
                 <input type="email" name="email" placeholder="Tu email" class="p-4 rounded-full bg-transparent border border-white/20 text-white placeholder-slate-400">
                 <textarea name="message" placeholder="Cuéntame un poco..." class="p-4 rounded-3xl bg-transparent border border-white/20 text-white placeholder-slate-400 h-24"></textarea>
                 <button type="submit" class="nav-link bg-cyan-600/20 border-cyan-500/30 hover:bg-cyan-600/30">
