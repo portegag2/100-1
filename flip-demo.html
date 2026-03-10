@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Flip</title>
+<style>
+  :root { --cobalt: #0047ff; --cyan: #00f0ff; --deep: #0a0a0c; }
+  body { background: var(--deep); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
+
+  .flip-container {
+    width: 500px;
+    height: 300px;
+    perspective: 1200px;
+  }
+
+  .flip-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+
+  .flip-container.flipped .flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2rem;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .flip-front {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .flip-back {
+    background: rgba(0, 71, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    justify-content: flex-start;
+    transform: rotateY(180deg);
+  }
+
+  h3 { font-size: 2rem; font-weight: 700; margin: 0 0 0.5rem; }
+  p  { color: #888; margin: 0; font-size: 0.95rem; line-height: 1.6; }
+
+  .btn-flip {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: rgba(0,240,255,0.1);
+    border: 1px solid rgba(0,240,255,0.3);
+    color: var(--cyan);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .btn-flip:hover { background: rgba(0,240,255,0.2); border-color: var(--cyan); }
+</style>
+</head>
+<body>
+  <div class="flip-container" id="card">
+    <div class="flip-inner">
+      <div class="flip-front">
+        <h3>Eficiencia</h3>
+        <p>Con automatizaciones sencillas y agentes de IA, podemos encargarnos de trámites repetitivos...</p>
+        <button class="btn-flip" onclick="document.getElementById('card').classList.add('flipped')">+ info</button>
+      </div>
+      <div class="flip-back">
+        <h3 style="font-size:1.3rem; margin-bottom:1rem;">El detalle</h3>
+        <p style="color:#aaa;">Aquí va la explicación larga.</p>
+        <button class="btn-flip" onclick="document.getElementById('card').classList.remove('flipped')">← volver</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
