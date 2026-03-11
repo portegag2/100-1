@@ -296,6 +296,92 @@
             background: rgba(255,255,255,0.12);
             color: #fff;
         }
+        /* ── FLIP — solo lo imprescindible ── */
+        .flip-wrap {
+            perspective: 1200px;
+            width: 100%;
+        }
+        .flip-inner {
+            width: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .flip-wrap.flipped .flip-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-front {
+            width: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: rotateY(0deg);
+        }
+        .flip-back {
+            position: absolute;
+            inset: 0;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+            background: rgba(0, 71, 255, 0.06);
+            border-radius: 40px;
+            /*padding: 3rem;*/
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+        }
+        /* Para tarjetas con altura fija (rendimiento h-[500px]) */
+        #rendimiento .flip-wrap,
+        #rendimiento .flip-inner,
+        #rendimiento .flip-front {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        #rendimiento .btn-flip {
+            bottom: -2.5rem;
+            right: -1.5rem;
+        }
+        #rendimiento .abs-shape {
+            top: -3.5rem;
+            right: -2.5rem;
+        }
+        .flip-back-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--cyan);
+        }
+        .flip-back-text {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.75;
+            font-weight: 300;
+        }
+        .btn-flip {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(0,240,255,0.08);
+            border: 1px solid rgba(0,240,255,0.25);
+            color: var(--cyan);
+            border-radius: 100px;
+            padding: 6px 18px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s, border-color 0.3s;
+            z-index: 2;
+        }
+        .btn-flip:hover {
+            background: rgba(0,240,255,0.18);
+            border-color: var(--cyan);
+        }
     </style>
 </head>
 <body>
@@ -371,17 +457,29 @@
         <!-- Bento Section con Ilustraciones -->
         <section class="py-5 grid grid-cols-1 md:grid-cols-3 gap-8">
             
+            <!-- EFICIENCIA -->
             <div id="rendimiento" class="liquid-card md:col-span-2 reveal h-[500px] flex flex-col justify-end">
-                <!-- Dibujo Abstracto SVG -->
-                <div class="abs-shape top-10 right-10">
-                    <svg width="200" height="200" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="40" stroke="var(--cobalt)" stroke-width="0.5" fill="none" opacity="0.5" />
-                        <rect x="30" y="30" width="40" height="40" stroke="var(--cyan)" stroke-width="0.5" fill="none" />
-                        <line x1="0" y1="0" x2="100" y2="100" stroke="white" stroke-width="0.1" />
-                    </svg>
+                <div class="flip-wrap" id="fw-rendimiento">
+                    <div class="flip-inner">
+                        <div class="flip-front">
+                            <div class="abs-shape">
+                                <svg width="200" height="200" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" stroke="var(--cobalt)" stroke-width="0.5" fill="none" opacity="0.5" />
+                                    <rect x="30" y="30" width="40" height="40" stroke="var(--cyan)" stroke-width="0.5" fill="none" />
+                                    <line x1="0" y1="0" x2="100" y2="100" stroke="white" stroke-width="0.1" />
+                                </svg>
+                            </div>
+                            <h3 class="text-5xl font-bold mb-6 italic">Eficiencia</h3>
+                            <p class="text-xl text-slate-400 max-w-md leading-relaxed">Con <span class="text-white">automatizaciones sencillas y agentes de IA</span>, podemos encargarnos de trámites repetitivos que quitan horas cada semana eliminando fricción.</p>
+                            <button class="btn-flip" onclick="doFlip('fw-rendimiento')">+ info</button>
+                        </div>
+                        <div class="flip-back">
+                            <p class="flip-back-title">Cómo funciona</p>
+                            <p class="flip-back-text">Identificamos las tareas que se repiten semana tras semana — envíos de emails, actualizaciones de estado, recordatorios, volcados de datos — y las convertimos en flujos automáticos. Usamos herramientas como n8n o agentes de IA que trabajan en segundo plano, sin que tengas que intervenir. El resultado: menos interrupciones, menos errores, y horas recuperadas cada semana para lo que realmente importa.</p>
+                            <button class="btn-flip" onclick="doFlip('fw-rendimiento')">← volver</button>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="text-5xl font-bold mb-6 italic">Eficiencia</h3>
-                <p class="text-xl text-slate-400 max-w-md leading-relaxed">Con <span class="text-white">automatizaciones sencillas y agentes de IA</span>, podemos encargarnos de trámites repetitivos que quitan horas cada semana eliminando fricción.</p>
             </div>
 
             <div class="liquid-card reveal bg-blue-600/10 border-blue-500/30 flex flex-col justify-center items-center text-center">
@@ -507,6 +605,9 @@
     </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        function doFlip(id) {
+            document.getElementById(id).classList.toggle('flipped');
+        }
         // Fluid Background Logic (Simulando Wild Colors & Textured Pixels)
         const canvas = document.getElementById('fluid-bg');
         const ctx = canvas.getContext('2d');
