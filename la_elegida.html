@@ -362,8 +362,8 @@
         }
         .btn-flip {
             position: absolute;
-            bottom: 1.5rem;
-            right: 1.5rem;
+            bottom: -2.5rem;
+            right: -1.5rem;
             background: rgba(0,240,255,0.08);
             border: 1px solid rgba(0,240,255,0.25);
             /*color: var(--cyan);*/
@@ -488,19 +488,30 @@
                 <p class="text-xs uppercase tracking-[0.3em]">Tiempo ahorrado</p>
             </div>
 
-            <div class="liquid-card reveal md:col-span-3 flex flex-col md:flex-row gap-12 items-center bg-white/[0.02]">
-                <div class="md:w-1/2">
-                    <h3 class="text-4xl font-bold mb-6 tracking-tighter">Atención contínua</h3>
-                    <p class="text-xl text-slate-400 font-light">Resolvemos la <span class="text-white">atención al cliente fuera de horario</span> con herramientas inteligentes, para que ellos se sientan atendidos siempre y tú estés tranquilo.</p>
-                </div>
-                <div class="md:w-1/2 flex justify-center">
-                    <!-- Ilustración de Nodos dinámica -->
-                    <svg width="300" height="150" viewBox="0 0 300 150">
-                        <path d="M50 75 Q 150 10, 250 75" stroke="var(--cobalt)" fill="none" stroke-width="2" />
-                        <circle cx="50" cy="75" r="8" fill="var(--cyan)" />
-                        <circle cx="150" cy="35" r="8" fill="white" />
-                        <circle cx="250" cy="75" r="8" fill="var(--cobalt)" />
-                    </svg>
+            <div class="liquid-card reveal md:col-span-3 bg-white/[0.02]">
+                <div class="flip-wrap" id="fw-atencion">
+                    <div class="flip-inner">
+                        <div class="flip-front flex flex-col md:flex-row gap-12 items-center">
+                            <div class="md:w-1/2">
+                                <h3 class="text-4xl font-bold mb-6 tracking-tighter">Atención contínua</h3>
+                                <p class="text-xl text-slate-400 font-light">Resolvemos la <span class="text-white">atención al cliente fuera de horario</span> con herramientas inteligentes, para que ellos se sientan atendidos siempre y tú estés tranquilo.</p>
+                                <button class="btn-flip" onclick="doFlip('fw-atencion')" style="margin-top:1.5rem;">+ info</button>
+                            </div>
+                            <div class="md:w-1/2 flex justify-center">
+                                <svg width="300" height="150" viewBox="0 0 300 150">
+                                    <path d="M50 75 Q 150 10, 250 75" stroke="var(--cobalt)" fill="none" stroke-width="2" />
+                                    <circle cx="50" cy="75" r="8" fill="var(--cyan)" />
+                                    <circle cx="150" cy="35" r="8" fill="white" />
+                                    <circle cx="250" cy="75" r="8" fill="var(--cobalt)" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flip-back">
+                            <p class="flip-back-title">Siempre disponible</p>
+                            <p class="flip-back-text">Configuramos asistentes inteligentes que responden dudas frecuentes, gestionan solicitudes y derivan los casos complejos a la persona adecuada — a cualquier hora, cualquier día. El cliente recibe atención inmediata y tú no tienes que estar pendiente del teléfono ni del chat fuera de tu horario. Una capa de presencia constante que no descansa.</p>
+                            <button class="btn-flip" onclick="doFlip('fw-atencion')">← volver</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="tranquilidad" class="liquid-card reveal bg-blue-600/10 border-blue-500/30 flex flex-col justify-center items-center text-center">
@@ -604,7 +615,7 @@
         </nav>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         function doFlip(id) {
             document.getElementById(id).classList.toggle('flipped');
         }
